@@ -1,6 +1,7 @@
 #This is Streamlit app
 import streamlit as st
 import pandas as pd
+import openai
 
 st.set_page_config(
     page_title="Ask your CSV",
@@ -8,8 +9,20 @@ st.set_page_config(
     layout="wide"
 )
 
+client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+if 'messages' not in st.session_state:
+    st.session_state.messages=[]
+
+if 'df' not in st.session_state:
+    st.session_state.df=None
+if 'data_summary' not in st.session_state:
+    st.session_state.data_summary=None
+
 st.title("Ask your CSV")
 st.markdown("Upload your data and ask questions in plain English!")
+
+
 
 #Sidebar for file upload
 with st.sidebar:
